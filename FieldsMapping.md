@@ -1,0 +1,11 @@
+- Issue Summary = `fields.summary`
+- Issue Key = `key`
+- URL of the issue (e.g. https://jira.atlassian.com/browse/JRA-40180 ) = `<will construct it>`
+- Issue Type = `fields.type`
+- Issue Priority = `fields.priority`
+- Issue Description = `fields.description`
+- Reporter (username only) = `fields.reporter`
+- Issue Created Date = `fields.created`
+- Comments, with the following:
+- comment text
+- comment author (username only)
