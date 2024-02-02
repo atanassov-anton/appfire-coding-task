@@ -12,6 +12,8 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -25,7 +27,15 @@ public class Main {
         try {
             JiraQueryBuilder queryBuilder = new JiraQueryBuilder();
             String jql = "issuetype in (Bug, Documentation, Enhancement) and updated > startOfWeek()";
-            URI searchRequest = queryBuilder.getSearchQuery(jql, 0, 1, new String[] {"summary", "status", "assignee"});
+            List<String> fields = new LinkedList<>();
+            fields.add("summary");
+            fields.add("type");
+            fields.add("priority");
+            fields.add("description");
+            fields.add("reporter");
+            fields.add("created");
+
+            URI searchRequest = queryBuilder.getSearchQuery(jql, 0, 1, fields);
             HttpGet request = new HttpGet(searchRequest);
             request.addHeader(HttpHeaders.ACCEPT, "application/json");
             CloseableHttpResponse response = httpClient.execute(request);
