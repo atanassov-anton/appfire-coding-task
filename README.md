@@ -33,14 +33,14 @@ Verify we can make REST calls to https://jira.atlassian.com instance
 - [x] Choose approach - direct HTTP vs SDK
 - [x] Setup skeleton project
 - [x] Do a POC to verify that access to search REST API for https://jira.atlassian.com instance
-- [ ] move POC into separate folder
+- [x] move POC into separate folder
 
 ### Demo
 Have executable java jar that accepts 1 argument (type of output). It should get 1 page (10 issues) of results and persist them to xml json.
 #### Plan
-- [ ] Find field names for required output. E.g. "Issue Summary" -> summary and craft the whole query against `<base url>/issue` API
-- [ ] Do the same for `<base url>/issue/{issueIdOrKey}/comment` API
-- [ ] Parse result into POJO
+- [x] Find field names for required output. E.g. "Issue Summary" -> summary and craft the whole query against `<base url>/issue` API
+- [x] Do the same for `<base url>/issue/{issueIdOrKey}/comment` API
+- [x] Parse result into POJO
 - [ ] Serialize result into xml
 - [ ] Serialize result into json
 - [ ] Add unit tests
