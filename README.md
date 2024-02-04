@@ -1,4 +1,11 @@
 # appfire-coding-task
+## How to use the jira-dumper-demo project
+1. Clone the git repo
+2. Build the jira-dumper-demo project with maven: `mvn clean install`
+3. From the root folder of the repo execute the single jar: 
+   - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
+   - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
+
 ## Requirements
 The task is to obtain data from JIRA and persist it in both XML and JSON files.
 It should be implemented in Java, and you can use any frameworks and libraries you like.
@@ -33,21 +40,45 @@ Verify we can make REST calls to https://jira.atlassian.com instance
 - [x] Choose approach - direct HTTP vs SDK
 - [x] Setup skeleton project
 - [x] Do a POC to verify that access to search REST API for https://jira.atlassian.com instance
-- [ ] move POC into separate folder
+- [x] move POC into separate folder
 
 ### Demo
 Have executable java jar that accepts 1 argument (type of output). It should get 1 page (10 issues) of results and persist them to xml json.
 #### Plan
-- [ ] Find field names for required output. E.g. "Issue Summary" -> summary and craft the whole query against `<base url>/issue` API
-- [ ] Do the same for `<base url>/issue/{issueIdOrKey}/comment` API
-- [ ] Parse result into POJO
-- [ ] Serialize result into xml
-- [ ] Serialize result into json
-- [ ] Add unit tests
-- [ ] Add javadoc and documentation
+- [x] Find field names for required output. E.g. "Issue Summary" -> summary and craft the whole query against `<base url>/issue` API
+- [x] Do the same for `<base url>/issue/{issueIdOrKey}/comment` API
+- [x] Parse result into POJO
+- [x] Serialize result into xml
+- [x] Serialize result into json
+- [x] handle serialization format parameter
+- [x] Make jar executable
 
 ### MVP
 Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of pages, output folder.
+features:
+- executable jar
+- arguments
+  - serialization format (json/xml)
+  - page size
+  - max number of records (or max number of pages)
+  - output folder
+- queries the jira instance with the jql from requirements and dumps results into files (1 file per page) into outputfolder 
+#### Plan
+- [ ] Refactor main logic into
+  - Query
+  - QueryBuilder
+  - SearchQueryBuilder
+  - CommentsQueryBuilder
+  - SearchQuery
+  - CommentsQuery
+  - QueryParser
+  - SearchQueryParser
+  - CommentsQueryParser
+- [ ] Add Pagination and multifile output - with hardcoded page size and max number of pages
+- [ ] Add arguments parsing
+- [ ] Add unit tests to 1 class
+- [ ] Add javadoc and documentation to 1 class
+- [ ] Add exception handling for 1 method
 
 ### Future Roadmap
 Features for future development. These are not prioritized:
