@@ -1,11 +1,11 @@
-# appfire-coding-task
-## How to use the jira-dumper-demo project
+# How to use the jira-dumper-demo project
 1. Clone the git repo
 2. Build the jira-dumper-demo project with maven: `mvn clean install`
-3. From the root folder of the repo execute the single jar: 
-   - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
-   - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
+3. From the root folder of the repo execute the single jar:
+  - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
+  - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
 
+# appfire-coding-task
 ## Requirements
 The task is to obtain data from JIRA and persist it in both XML and JSON files.
 It should be implemented in Java, and you can use any frameworks and libraries you like.
