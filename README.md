@@ -1,4 +1,11 @@
 # appfire-coding-task
+## How to use the jira-dumper-demo project
+1. Clone the git repo
+2. Build the jira-dumper-demo project with maven: `mvn clean install`
+3. From the root folder of the repo execute the single jar: 
+   - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
+   - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
+
 ## Requirements
 The task is to obtain data from JIRA and persist it in both XML and JSON files.
 It should be implemented in Java, and you can use any frameworks and libraries you like.
@@ -44,7 +51,7 @@ Have executable java jar that accepts 1 argument (type of output). It should get
 - [x] Serialize result into xml
 - [x] Serialize result into json
 - [x] handle serialization format parameter
-- [ ] Make jar executable
+- [x] Make jar executable
 
 ### MVP
 Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of pages, output folder.
