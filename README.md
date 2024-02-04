@@ -41,13 +41,37 @@ Have executable java jar that accepts 1 argument (type of output). It should get
 - [x] Find field names for required output. E.g. "Issue Summary" -> summary and craft the whole query against `<base url>/issue` API
 - [x] Do the same for `<base url>/issue/{issueIdOrKey}/comment` API
 - [x] Parse result into POJO
-- [ ] Serialize result into xml
-- [ ] Serialize result into json
-- [ ] Add unit tests
-- [ ] Add javadoc and documentation
+- [x] Serialize result into xml
+- [x] Serialize result into json
+- [x] handle serialization format parameter
+- [ ] Make jar executable
 
 ### MVP
 Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of pages, output folder.
+features:
+- executable jar
+- arguments
+  - serialization format (json/xml)
+  - page size
+  - max number of records (or max number of pages)
+  - output folder
+- queries the jira instance with the jql from requirements and dumps results into files (1 file per page) into outputfolder 
+#### Plan
+- [ ] Refactor main logic into
+  - Query
+  - QueryBuilder
+  - SearchQueryBuilder
+  - CommentsQueryBuilder
+  - SearchQuery
+  - CommentsQuery
+  - QueryParser
+  - SearchQueryParser
+  - CommentsQueryParser
+- [ ] Add Pagination and multifile output - with hardcoded page size and max number of pages
+- [ ] Add arguments parsing
+- [ ] Add unit tests to 1 class
+- [ ] Add javadoc and documentation to 1 class
+- [ ] Add exception handling for 1 method
 
 ### Future Roadmap
 Features for future development. These are not prioritized:

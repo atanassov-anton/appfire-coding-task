@@ -3,6 +3,8 @@ package org.aatanassov.corp;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -25,18 +27,26 @@ public class Main {
     public static final String JQL = "issuetype in (Bug, Documentation, Enhancement) and updated > startOfWeek()";
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        testJiraIssuesExtractor();
-    }
-
-    public static void testJiraIssuesExtractor() throws URISyntaxException, IOException {
         JiraIssuesExtractor issuesExtractor = new JiraIssuesExtractor(JIRA_ATLASSIAN_REST_ENDPOINT, JIRA_ATLASSIAN_BROWSE_URL, HttpClients.createDefault());
-        List<JiraIssue> issues = issuesExtractor.getIssues(JQL, 10, 10);
-        for (JiraIssue issue : issues) {
-            System.out.println();
-            System.out.println("===========================================");
-            System.out.println();
-            System.out.println(issue);
+        List<JiraIssue> issues = issuesExtractor.getIssues(JQL, 0, 10);
+
+        if (args[0].toLowerCase().equals("xml")) {
+            saveToXml(issues, "jira-dumper-demo/target/issues.xml");
+        } else {
+            saveToJson(issues, "jira-dumper-demo/target/issues.json");
         }
+
     }
 
+    private static void saveToJson(List<JiraIssue> issues, String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(new File(filePath), issues);
+    }
+
+    private static void saveToXml(List<JiraIssue> issues, String filePath) throws IOException {
+        ObjectMapper xmlMapper = new XmlMapper();
+        ObjectWriter writer = xmlMapper.writer(new DefaultXmlPrettyPrinter());
+        writer.writeValue(new File(filePath), issues);
+    }
 }
