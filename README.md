@@ -79,12 +79,13 @@ features:
 - [ ] Add unit tests to 1 class
 - [ ] Add javadoc and documentation to 1 class
 - [ ] Add exception handling for 1 method
+- [ ] Add integration tests
 
 ### Future Roadmap
 Features for future development. These are not prioritized:
-- Introduce QueryBuilder so that if customer wants to change the "base" query it is easier and also if he wants multiple queries it is easier.
 - Add BasicAuth
 - parallel execution of dumping
 - make the jql and output information configurable
+- add configurable jira rest endpoint with configurable auth 
 - yaml support
 - Make the dump live and auto updatable. If this is relevant to customer.
