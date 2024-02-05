@@ -1,4 +1,10 @@
 # How to use the jira-dumper-mvp project
+## Prerequisites
+- maven is installed
+- java 21 or higher is installed
+- git is installed
+
+## Steps to run single jar executable
 1. Clone the git repo
 2. Build the jira-dumper-mvp project with maven: `mvn clean install`
 3. To get the help of the single jar execute:
@@ -55,13 +61,13 @@ Have executable java jar that accepts 1 argument (type of output). It should get
 - [x] Make jar executable
 
 ### MVP
-Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of pages, output folder.
+Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of results, output folder.
 features:
 - executable jar
 - arguments
   - serialization format (json/xml)
   - page size
-  - max number of records (or max number of pages)
+  - max number of results 
   - output folder
 - queries the jira instance with the jql from requirements and dumps results into files (1 file per page) into outputfolder 
 #### Plan
@@ -77,9 +83,9 @@ features:
   - CommentsQueryParser
 - [x] Add arguments validation
 - [x] Add Pagination and multifile output - with hardcoded page size and max number of pages
-- [x] Add unit tests to 1 class
-- [x] Add javadoc and documentation to 1 class
-- [x] Add exception handling for 1 method
+- [x] Add unit tests to 1 class - JiraSearchQuery
+- [x] Add javadoc and documentation to 1 class - JiraSearchQuery
+- [x] Add exception handling for 1 method - JiraJsonPersister#persistJiraElements
 - [x] Add page size and max number of results main arguments
 - [x] Update readme documentation
 - [x] Add persister classes
@@ -87,9 +93,10 @@ features:
 
 ### Future Roadmap
 Features for future development. These are not prioritized:
-- Add BasicAuth
 - parallel execution of dumping
-- make the jql and output information configurable
+- Add BasicAuth
+- make the jql configurable
+- make the output information configurable
 - add configurable jira rest endpoint with configurable auth 
 - yaml support
 - Make the dump live and auto updatable. If this is relevant to customer.
