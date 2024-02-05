@@ -30,12 +30,11 @@ public class Main {
         JiraIssuesExtractor issuesExtractor = new JiraIssuesExtractor(JIRA_ATLASSIAN_REST_ENDPOINT, JIRA_ATLASSIAN_BROWSE_URL, HttpClients.createDefault());
         List<JiraIssue> issues = issuesExtractor.getIssues(JQL, 0, 10);
 
-        if (args[0].toLowerCase().equals("xml")) {
-            saveToXml(issues, "jira-dumper-demo/target/issues.xml");
+        if (args.length == 0 || args[0].equals("json")) {
+            saveToJson(issues, "jira-dumper-mvp/target/issues.json");
         } else {
-            saveToJson(issues, "jira-dumper-demo/target/issues.json");
+            saveToXml(issues, "jira-dumper-mvp/target/issues.xml");
         }
-
     }
 
     private static void saveToJson(List<JiraIssue> issues, String filePath) throws IOException {

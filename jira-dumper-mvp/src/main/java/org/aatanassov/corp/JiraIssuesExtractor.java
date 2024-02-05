@@ -2,6 +2,7 @@ package org.aatanassov.corp;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aatanassov.corp.jira.client.JiraSearchQuery;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.HttpClient;
@@ -24,28 +25,21 @@ public class JiraIssuesExtractor {
     private final String jiraRestEndpoint;
     private final String jiraBrowseUrl;
     private final CloseableHttpClient httpClient;
-    private final List<String> fields;
     private final ObjectMapper objectMapper;
 
     public JiraIssuesExtractor(String jiraRestEndpoint, String jiraBrowseUrl, CloseableHttpClient httpClient) {
         this.jiraRestEndpoint = jiraRestEndpoint;
         this.jiraBrowseUrl = (jiraBrowseUrl.endsWith("/")) ? jiraBrowseUrl : jiraBrowseUrl + "/";
         this.httpClient = httpClient;
-        fields = new LinkedList<>();
-        fields.add("summary");
-        fields.add("type");
-        fields.add("priority");
-        fields.add("description");
-        fields.add("reporter");
-        fields.add("created");
         objectMapper = new ObjectMapper();
 
     }
 
     public List<JiraIssue> getIssues(String jql, long startAt, int maxResults) throws URISyntaxException, IOException {
-        URI searchQuery = getSearchQuery(jql, startAt, maxResults, fields);
-        String searchResponse = executeGet(searchQuery);
-        List<JiraIssue> jiraIssues = parseSearchResponse(searchResponse);
+        JiraSearchQuery searchQuery = new JiraSearchQuery(jiraRestEndpoint, jiraBrowseUrl, jql);
+        URI searchQueryUri = searchQuery.getQuery(startAt, maxResults);
+        String searchResponse = executeGet(searchQueryUri);
+        List<JiraIssue> jiraIssues = searchQuery.parseResponse(objectMapper.readTree(searchResponse));
         populateComments(jiraIssues);
         return jiraIssues;
     }
@@ -74,15 +68,6 @@ public class JiraIssuesExtractor {
 
     }
 
-    private URI getSearchQuery(String jql, long startAt, int maxResults, List<String> fields) throws URISyntaxException {
-        URIBuilder uri = new URIBuilder(jiraRestEndpoint + "/search");
-        uri.addParameter("jql", jql);
-        uri.addParameter("startAt", Long.toString(startAt));
-        uri.addParameter("maxResults", Integer.toString(maxResults));
-        uri.addParameter("fields", String.join(",", fields));
-        return uri.build();
-    }
-
     private URI getCommentsQuery(String issueId, long startAt, int maxResults) throws URISyntaxException {
         String baseURL = jiraRestEndpoint + "/issue/" + issueId + "/comment";
         URIBuilder uri = new URIBuilder(baseURL);
@@ -108,26 +93,6 @@ public class JiraIssuesExtractor {
         } finally {
             response.close();
         }
-    }
-
-    private List<JiraIssue> parseSearchResponse(String searchQueryResponse) throws IOException {
-        List<JiraIssue> result = new ArrayList<>();
-        JsonNode jsonNode = objectMapper.readTree(searchQueryResponse);
-        JsonNode issuesNode = jsonNode.get("issues");
-        for (Iterator<JsonNode> it = issuesNode.iterator(); it.hasNext(); ) {
-            JiraIssue jiraIssue = new JiraIssue();
-            JsonNode issueNode = it.next();
-            jiraIssue.setKey(issueNode.get("key").asText());
-            JsonNode fields = issueNode.get("fields");
-            jiraIssue.setDateCreated(fields.get("created").asText());
-            jiraIssue.setDescription(fields.get("description").asText());
-            jiraIssue.setSummary(fields.get("summary").asText());
-            jiraIssue.setPriority(fields.get("priority").get("name").asText());
-            jiraIssue.setReporter(fields.get("reporter").get("displayName").asText());
-            jiraIssue.setUrl(jiraBrowseUrl + jiraIssue.getKey());
-            result.add(jiraIssue);
-        }
-        return result;
     }
 
 }
