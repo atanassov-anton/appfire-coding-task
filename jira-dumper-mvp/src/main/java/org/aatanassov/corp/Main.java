@@ -5,21 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static java.lang.System.exit;
 
 public class Main {
     public static final String JIRA_ATLASSIAN_REST_ENDPOINT = "https://jira.atlassian.com/rest/api/latest";
@@ -27,14 +22,40 @@ public class Main {
     public static final String JQL = "issuetype in (Bug, Documentation, Enhancement) and updated > startOfWeek()";
 
     public static void main(String[] args) throws IOException, URISyntaxException {
+        validateArguments(args);
         JiraIssuesExtractor issuesExtractor = new JiraIssuesExtractor(JIRA_ATLASSIAN_REST_ENDPOINT, JIRA_ATLASSIAN_BROWSE_URL, HttpClients.createDefault());
         List<JiraIssue> issues = issuesExtractor.getIssues(JQL, 0, 10);
 
-        if (args.length == 0 || args[0].equals("json")) {
-            saveToJson(issues, "jira-dumper-mvp/target/issues.json");
+        if (args[0].equals("json")) {
+            saveToJson(issues, args[1] + "/issues.json");
         } else {
-            saveToXml(issues, "jira-dumper-mvp/target/issues.xml");
+            saveToXml(issues, args[1] + "/issues.xml");
         }
+    }
+
+    private static void validateArguments(String[] args) {
+        if (args.length < 2) {
+            printHelp();
+            exit(1);
+        }
+        if (!(args[0].equals("json") || args[0].equals("xml"))) {
+            printHelp();
+            System.out.println("first argument (output_format) must be either 'json' or 'xml'");
+            exit(1);
+        }
+        if (!Files.exists(Paths.get(args[1]))) {
+            printHelp();
+            System.out.println("output_folder points to a non-existing folder.");
+            exit(1);
+        }
+    }
+
+    private static void printHelp() {
+        System.out.println("");
+        System.out.println("jira-dumper Help");
+        System.out.println("jira-dumper expects 2 arguments:");
+        System.out.println("output_format(json|xml) output_folder");
+        System.out.println("");
     }
 
     private static void saveToJson(List<JiraIssue> issues, String filePath) throws IOException {
