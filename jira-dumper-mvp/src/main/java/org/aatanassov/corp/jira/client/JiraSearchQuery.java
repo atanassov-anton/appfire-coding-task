@@ -26,6 +26,7 @@ public class JiraSearchQuery extends JiraRestQuery {
      * Constructs a jira search query object initialized with the provided parameters
      *
      * @param jiraRestEndpoint base REST url of a jira instance which is used to build the search query URI.
+     *                         Must not be {@code null}.
      * @param jiraBrowseUrl    base "browse" url for the jira instance which is used to build individual issue urls.
      * @param jql              query which is used to build the jira search query.
      */
@@ -106,12 +107,5 @@ public class JiraSearchQuery extends JiraRestQuery {
             result.add(jiraIssue);
         }
         return result;
-    }
-
-    private JsonNode getChildNodeByName(JsonNode parentNode, String parentNodeName, String childNodeName) {
-        if (!parentNode.has(childNodeName)) {
-            throw new RuntimeException("The node " + parentNodeName + " doesn't have a child named " + childNodeName);
-        }
-        return parentNode.get(childNodeName);
     }
 }

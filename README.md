@@ -64,7 +64,7 @@ features:
   - output folder
 - queries the jira instance with the jql from requirements and dumps results into files (1 file per page) into outputfolder 
 #### Plan
-- [ ] Refactor main logic into
+- [x] Refactor main logic into
   - Query
   - QueryBuilder
   - SearchQueryBuilder
@@ -74,10 +74,10 @@ features:
   - QueryParser
   - SearchQueryParser
   - CommentsQueryParser
+- [ ] Add arguments validation
 - [ ] Add Pagination and multifile output - with hardcoded page size and max number of pages
-- [ ] Add arguments parsing
-- [ ] Add unit tests to 1 class
-- [ ] Add javadoc and documentation to 1 class
+- [x] Add unit tests to 1 class
+- [x] Add javadoc and documentation to 1 class
 - [ ] Add exception handling for 1 method
 - [ ] Add integration tests
 

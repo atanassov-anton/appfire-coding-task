@@ -2,6 +2,7 @@ package org.aatanassov.corp;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aatanassov.corp.jira.client.JiraCommentsQuery;
 import org.aatanassov.corp.jira.client.JiraSearchQuery;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -46,35 +47,12 @@ public class JiraIssuesExtractor {
 
     private void populateComments(List<JiraIssue> jiraIssues) throws URISyntaxException, IOException {
         for (JiraIssue jiraIssue : jiraIssues) {
-            URI getCommentsQuery = getCommentsQuery(jiraIssue.getKey(), 0, 10);
+            JiraCommentsQuery commentsQuery = new JiraCommentsQuery(jiraRestEndpoint, jiraIssue.getKey());
+            URI getCommentsQuery = commentsQuery.getQuery(0, 10);
             String commentsQueryResponse = executeGet(getCommentsQuery);
-            List<JiraIssue.Comment> comments = parseGetCommentsResponse(commentsQueryResponse);
+            List<JiraIssue.Comment> comments = commentsQuery.parseResponse(objectMapper.readTree(commentsQueryResponse));
             jiraIssue.setComments(comments);
         }
-    }
-
-    private List<JiraIssue.Comment> parseGetCommentsResponse(String commentsQueryResponse) throws IOException {
-        List<JiraIssue.Comment> result = new ArrayList<>();
-        JsonNode jsonNode = objectMapper.readTree(commentsQueryResponse);
-        JsonNode commentsNode = jsonNode.get("comments");
-        for (Iterator<JsonNode> it = commentsNode.iterator(); it.hasNext(); ) {
-            JiraIssue.Comment comment = new JiraIssue.Comment();
-            JsonNode commentNode = it.next();
-            comment.setAuthorUsername(commentNode.get("author").get("displayName").asText());
-            comment.setText(commentNode.get("body").asText());
-            result.add(comment);
-        }
-        return result;
-
-    }
-
-    private URI getCommentsQuery(String issueId, long startAt, int maxResults) throws URISyntaxException {
-        String baseURL = jiraRestEndpoint + "/issue/" + issueId + "/comment";
-        URIBuilder uri = new URIBuilder(baseURL);
-        uri.addParameter("startAt", Long.toString(startAt));
-        uri.addParameter("maxResults", Integer.toString(maxResults));
-        uri.addParameter("orderBy", "created");
-        return uri.build();
     }
 
     private String executeGet(URI getQuery) throws IOException {
