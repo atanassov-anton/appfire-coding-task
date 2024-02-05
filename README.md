@@ -1,9 +1,10 @@
-# How to use the jira-dumper-demo project
+# How to use the jira-dumper-mvp project
 1. Clone the git repo
-2. Build the jira-dumper-demo project with maven: `mvn clean install`
-3. From the root folder of the repo execute the single jar:
-  - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
-  - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
+2. Build the jira-dumper-mvp project with maven: `mvn clean install`
+3. To get the help of the single jar execute:
+   - `java -jar .\jira-dumper-mvp\target\jira-dumper-mvp-1.0-SNAPSHOT-jar-with-dependencies.jar`
+4. Example execution of the single jar:
+   - `java -jar .\jira-dumper-mvp\target\jira-dumper-mvp-1.0-SNAPSHOT-jar-with-dependencies.jar json .\jira-dumper-mvp\target\ 10 34`
 
 # appfire-coding-task
 ## Requirements
@@ -79,8 +80,9 @@ features:
 - [x] Add unit tests to 1 class
 - [x] Add javadoc and documentation to 1 class
 - [x] Add exception handling for 1 method
-- [ ] Add page size and max number of results main arguments
-- [ ] Update readme documentation
+- [x] Add page size and max number of results main arguments
+- [x] Update readme documentation
+- [x] Add persister classes
 - [ ] Add integration tests
 
 ### Future Roadmap
