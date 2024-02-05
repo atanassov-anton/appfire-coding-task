@@ -1,7 +1,7 @@
 - Issue Summary = `fields.summary`
 - Issue Key = `key`
 - URL of the issue (e.g. https://jira.atlassian.com/browse/JRA-40180 ) = `<will construct it>`
-- Issue Type = `fields.type`
+- Issue Type = `fields.issuetype`
 - Issue Priority = `fields.priority`
 - Issue Description = `fields.description`
 - Reporter (username only) = `fields.reporter`

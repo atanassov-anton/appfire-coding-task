@@ -1,9 +1,16 @@
-# How to use the jira-dumper-demo project
+# How to use the jira-dumper-mvp project
+## Prerequisites
+- maven is installed
+- java 21 or higher is installed
+- git is installed
+
+## Steps to run single jar executable
 1. Clone the git repo
-2. Build the jira-dumper-demo project with maven: `mvn clean install`
-3. From the root folder of the repo execute the single jar:
-  - for xml: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar" xml`
-  - for json: `java -jar ".\jira-dumper-demo\target\jira-dumper-demo-1.0-SNAPSHOT-jar-with-dependencies.jar"`
+2. Build the jira-dumper-mvp project with maven: `mvn clean install`
+3. To get the help of the single jar execute:
+   - `java -jar .\jira-dumper-mvp\target\jira-dumper-mvp-1.0-SNAPSHOT-jar-with-dependencies.jar`
+4. Example execution of the single jar:
+   - `java -jar .\jira-dumper-mvp\target\jira-dumper-mvp-1.0-SNAPSHOT-jar-with-dependencies.jar json .\jira-dumper-mvp\target\ 10 34`
 
 # appfire-coding-task
 ## Requirements
@@ -54,17 +61,17 @@ Have executable java jar that accepts 1 argument (type of output). It should get
 - [x] Make jar executable
 
 ### MVP
-Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of pages, output folder.
+Add capability to persist multiple pages in separate files. Additional arguments: page size, max number of results, output folder.
 features:
 - executable jar
 - arguments
   - serialization format (json/xml)
   - page size
-  - max number of records (or max number of pages)
+  - max number of results 
   - output folder
 - queries the jira instance with the jql from requirements and dumps results into files (1 file per page) into outputfolder 
 #### Plan
-- [ ] Refactor main logic into
+- [x] Refactor main logic into
   - Query
   - QueryBuilder
   - SearchQueryBuilder
@@ -74,18 +81,22 @@ features:
   - QueryParser
   - SearchQueryParser
   - CommentsQueryParser
-- [ ] Add Pagination and multifile output - with hardcoded page size and max number of pages
-- [ ] Add arguments parsing
-- [ ] Add unit tests to 1 class
-- [ ] Add javadoc and documentation to 1 class
-- [ ] Add exception handling for 1 method
-- [ ] Add integration tests
+- [x] Add arguments validation
+- [x] Add Pagination and multifile output - with hardcoded page size and max number of pages
+- [x] Add unit tests to 1 class - JiraSearchQuery
+- [x] Add javadoc and documentation to 1 class - JiraSearchQuery
+- [x] Add exception handling for 1 method - JiraJsonPersister#persistJiraElements
+- [x] Add page size and max number of results main arguments
+- [x] Update readme documentation
+- [x] Add persister classes
+- [x] Add integration tests
 
 ### Future Roadmap
 Features for future development. These are not prioritized:
-- Add BasicAuth
 - parallel execution of dumping
-- make the jql and output information configurable
+- Add BasicAuth
+- make the jql configurable
+- make the output information configurable
 - add configurable jira rest endpoint with configurable auth 
 - yaml support
 - Make the dump live and auto updatable. If this is relevant to customer.

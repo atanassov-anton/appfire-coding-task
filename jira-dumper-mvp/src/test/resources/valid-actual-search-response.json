@@ -1,0 +1,48 @@
+{
+  "expand":"names,schema",
+  "startAt":0,
+  "maxResults":1,
+  "total":859,
+  "issues":[
+    {
+      "expand":"operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id":"1996602",
+      "self":"https://jira.atlassian.com/rest/api/latest/issue/1996602",
+      "key":"STATUS-729",
+      "fields":{
+        "summary":"Mismatch between the uptime percentage in Manage portal and component in home page",
+        "issuetype":{
+          "self":"https://jira.atlassian.com/rest/api/2/issuetype/1",
+          "id":"1",
+          "description":"A problem which impairs or prevents the functions of the product.",
+          "iconUrl":"https://jira.atlassian.com/secure/viewavatar?size=xsmall&avatarId=51493&avatarType=issuetype",
+          "name":"Bug",
+          "subtask":false,
+          "avatarId":51493
+        },
+        "created":"2024-01-30T07:17:26.000+0000",
+        "description":"h3. Issue Summary\r\n\r\nThere is a mismatch between the Uptime calculation in the Manage page and the home page in a few components. \r\nh3. Steps to Reproduce\r\n\r\nUnable to recreate in the test instance.\r\nh3. Expected Results\r\n\r\nSame uptime value is expected to be in both pages. \r\nh3. Actual Results\r\n\r\nLet's take a component **** (check the internal comment) for example, uptime in manage page is 99.96% but in Home page it is 100% \r\nh3. Workaround\r\n\r\nNA",
+        "reporter":{
+          "self":"https://jira.atlassian.com/rest/api/2/user?username=0a2a7c90f190",
+          "name":"0a2a7c90f190",
+          "key":"JIRAUSER5287478",
+          "avatarUrls":{
+            "48x48":"https://jira.atlassian.com/secure/useravatar?ownerId=JIRAUSER5287478&avatarId=6207737",
+            "24x24":"https://jira.atlassian.com/secure/useravatar?size=small&ownerId=JIRAUSER5287478&avatarId=6207737",
+            "16x16":"https://jira.atlassian.com/secure/useravatar?size=xsmall&ownerId=JIRAUSER5287478&avatarId=6207737",
+            "32x32":"https://jira.atlassian.com/secure/useravatar?size=medium&ownerId=JIRAUSER5287478&avatarId=6207737"
+          },
+          "displayName":"Agaci Avinas",
+          "active":true,
+          "timeZone":"UTC"
+        },
+        "priority":{
+          "self":"https://jira.atlassian.com/rest/api/2/priority/2",
+          "iconUrl":"https://jira.atlassian.com/images/icons/priorities/high.svg",
+          "name":"High",
+          "id":"2"
+        }
+      }
+    }
+  ]
+}
