@@ -14,13 +14,21 @@ import java.util.List;
 /**
  * Class that can build a jira search query GET REST request and a method to parse the json response of the REST request.
  * <p>
- * The jira search query has a fixed set of fields: summary,
+ * The jira search query has a fixed set of fields: summary, issuetype, priority, description, reporter, created
+ * </p>
  */
 public class JiraSearchQuery extends JiraRestQuery {
     private final List<String> fields;
     private final String jiraBrowseUrl;
     private final String jql;
 
+    /**
+     * Constructs a jira search query object initialized with the provided parameters
+     *
+     * @param jiraRestEndpoint base REST url of a jira instance which is used to build the search query URI.
+     * @param jiraBrowseUrl    base "browse" url for the jira instance which is used to build individual issue urls.
+     * @param jql              query which is used to build the jira search query.
+     */
     public JiraSearchQuery(String jiraRestEndpoint, String jiraBrowseUrl, String jql) {
         super(jiraRestEndpoint);
         this.jiraBrowseUrl = (jiraBrowseUrl.endsWith("/")) ? jiraBrowseUrl : jiraBrowseUrl + "/";
@@ -34,6 +42,26 @@ public class JiraSearchQuery extends JiraRestQuery {
         fields.add("created");
     }
 
+    /**
+     * Builds a jira search query URI using the {@code jiraRestEndpoint}, {@code jql} constructor parameters and
+     * the {@code startAt} and {@code maxResults} method parameters.
+     * <p>
+     * The built get query adheres to the
+     * <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.13.0/#api/2/search-search">
+     * search jira REST API specification version 9.13.0</a>
+     * </p>
+     * <p>
+     * The returned URI should be used directly to make a GET REST request. The response of the REST request should be
+     * parsed using the {@link JiraSearchQuery#parseResponse(JsonNode)}
+     * </p>
+     *
+     * @param startAt    must be equal or greater than 0
+     * @param maxResults the maximum number of issues to return (defaults to 50). The maximum allowable value is
+     *                   dictated by the Jira property 'jira.search.views.default.max'. If you specify a value that is
+     *                   higher than this number, your search results will be truncated.
+     * @return URI representing a jira search query
+     * @throws URISyntaxException
+     */
     public URI getQuery(long startAt, int maxResults) throws URISyntaxException {
         URIBuilder uri = new URIBuilder(getJiraRestEndpoint());
         List<String> pathSegments = uri.getPathSegments();
@@ -71,8 +99,8 @@ public class JiraSearchQuery extends JiraRestQuery {
             JsonNode reporter = getChildNodeByName(fields, "fields", "reporter");
             jiraIssue.setReporter(getChildNodeByName(reporter, "reporter", "displayName").asText());
 
-            JsonNode issuetype = getChildNodeByName(fields, "fields","issuetype");
-            jiraIssue.setType(getChildNodeByName(issuetype, "issuetype","name").asText());
+            JsonNode issuetype = getChildNodeByName(fields, "fields", "issuetype");
+            jiraIssue.setType(getChildNodeByName(issuetype, "issuetype", "name").asText());
 
             jiraIssue.setUrl(jiraBrowseUrl + jiraIssue.getKey());
             result.add(jiraIssue);
