@@ -83,7 +83,7 @@ features:
 - [x] Add page size and max number of results main arguments
 - [x] Update readme documentation
 - [x] Add persister classes
-- [ ] Add integration tests
+- [x] Add integration tests
 
 ### Future Roadmap
 Features for future development. These are not prioritized:

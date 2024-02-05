@@ -37,10 +37,10 @@ public abstract class JiraListQueryPaginator {
             }
             String queryResponse = executeGet(jiraQuery);
             List<? extends JiraElement> jiraElements = listQuery.parseResponse(objectMapper.readTree(queryResponse));
+            handleResult(jiraElements);
             if (i + pageSize < maxResults && jiraElements.size() < pageSize) {
                 break;
             }
-            handleResult(jiraElements);
         }
     }
 

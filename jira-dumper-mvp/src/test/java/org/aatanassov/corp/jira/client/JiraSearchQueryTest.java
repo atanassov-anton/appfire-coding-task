@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aatanassov.corp.jira.model.JiraIssue;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,6 +12,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class JiraSearchQueryTest {
     private JiraSearchQuery underTest;
@@ -39,25 +41,25 @@ public class JiraSearchQueryTest {
             underTest = new JiraSearchQuery(null, "doesn't matter", "doesn't matter");
         } catch (NullPointerException exception) {
             exceptionTrhown = true;
-            Assert.assertTrue(exception.getMessage().contains("jiraRestEndpoint"));
+            assertTrue(exception.getMessage().contains("jiraRestEndpoint"));
         }
-        Assert.assertTrue(exceptionTrhown);
+        assertTrue(exceptionTrhown);
     }
 
     @Test
     public void testGetQueryAndValidateOutput() throws URISyntaxException {
         underTest = new JiraSearchQuery("https://www.jira.com/rest/api", "doesn't matter", "project=AA");
         URI query = underTest.getQuery(0, 20);
-        Assert.assertTrue(query.toString().startsWith("https://www"));
-        Assert.assertEquals(query.getHost(), "www.jira.com");
-        Assert.assertEquals(query.getPath(), "/rest/api/search");
+        assertTrue(query.toString().startsWith("https://www"));
+        assertEquals(query.getHost(), "www.jira.com");
+        assertEquals(query.getPath(), "/rest/api/search");
         String rawQuery = query.getRawQuery();
-        Assert.assertTrue(rawQuery.contains("jql=project%3DAA"));
-        Assert.assertTrue(rawQuery.contains("fields="));
-        Assert.assertTrue(rawQuery.contains("startAt=0"));
-        Assert.assertTrue(rawQuery.contains("maxResults=20"));
-        Assert.assertTrue(rawQuery.contains("summary"));
-        Assert.assertTrue(rawQuery.contains("description"));
+        assertTrue(rawQuery.contains("jql=project%3DAA"));
+        assertTrue(rawQuery.contains("fields="));
+        assertTrue(rawQuery.contains("startAt=0"));
+        assertTrue(rawQuery.contains("maxResults=20"));
+        assertTrue(rawQuery.contains("summary"));
+        assertTrue(rawQuery.contains("description"));
     }
 
     @Test
@@ -67,9 +69,9 @@ public class JiraSearchQueryTest {
             underTest.parseResponse(null);
         } catch (NullPointerException exception) {
             exceptionTrhown = true;
-            Assert.assertTrue(exception.getMessage().contains("searchQueryResponse"));
+            assertTrue(exception.getMessage().contains("searchQueryResponse"));
         }
-        Assert.assertTrue(exceptionTrhown);
+        assertTrue(exceptionTrhown);
     }
 
     @Test
@@ -80,9 +82,9 @@ public class JiraSearchQueryTest {
             underTest.parseResponse(searchResponse);
         } catch (RuntimeException exception) {
             exceptionTrhown = true;
-            Assert.assertTrue(exception.getMessage().contains("issues"));
+            assertTrue(exception.getMessage().contains("issues"));
         }
-        Assert.assertTrue(exceptionTrhown);
+        assertTrue(exceptionTrhown);
     }
 
     @Test
@@ -93,24 +95,24 @@ public class JiraSearchQueryTest {
             underTest.parseResponse(searchResponse);
         } catch (RuntimeException exception) {
             exceptionTrhown = true;
-            Assert.assertTrue(exception.getMessage().contains(" key"));
+            assertTrue(exception.getMessage().contains(" key"));
         }
-        Assert.assertTrue(exceptionTrhown);
+        assertTrue(exceptionTrhown);
     }
 
     @Test
     public void testParseWithValidActualResponse() throws IOException {
         JsonNode searchResponse = loadFromResourcesFile("valid-actual-search-response.json");
         List<JiraIssue> parsedIssues = underTest.parseResponse(searchResponse);
-        Assert.assertEquals(parsedIssues.size(), 1);
+        assertEquals(parsedIssues.size(), 1);
         JiraIssue issue = parsedIssues.get(0);
-        Assert.assertEquals(issue.getKey(), "STATUS-729");
-        Assert.assertEquals(issue.getPriority(), "High");
-        Assert.assertEquals(issue.getReporter(), "Agaci Avinas");
-        Assert.assertEquals(issue.getUrl(), JIRA_BROWSE_URL + "/" + "STATUS-729");
-        Assert.assertEquals(issue.getDateCreated(), "2024-01-30T07:17:26.000+0000");
-        Assert.assertTrue(issue.getDescription().startsWith("h3. Issue Summary"));
-        Assert.assertTrue(issue.getSummary().startsWith("Mismatch between the uptime percentage"));
+        assertEquals(issue.getKey(), "STATUS-729");
+        assertEquals(issue.getPriority(), "High");
+        assertEquals(issue.getReporter(), "Agaci Avinas");
+        assertEquals(issue.getUrl(), JIRA_BROWSE_URL + "/" + "STATUS-729");
+        assertEquals(issue.getDateCreated(), "2024-01-30T07:17:26.000+0000");
+        assertTrue(issue.getDescription().startsWith("h3. Issue Summary"));
+        assertTrue(issue.getSummary().startsWith("Mismatch between the uptime percentage"));
     }
 
     private JsonNode loadFromResourcesFile(String filename) throws IOException {

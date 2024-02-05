@@ -12,7 +12,6 @@ public class JiraIssuesExtractor {
     private final String jiraRestEndpoint;
     private final String jiraBrowseUrl;
     private final CloseableHttpClient httpClient;
-    private final ObjectMapper objectMapper;
     private final String outputFolder;
     private final String outputFormat;
 
@@ -26,8 +25,6 @@ public class JiraIssuesExtractor {
         this.httpClient = httpClient;
         this.outputFolder = outputFolder;
         this.outputFormat = outputFormat;
-        objectMapper = new ObjectMapper();
-
     }
 
     public void dumpIssues(String jql, int pageSize, int maxResults) throws URISyntaxException, IOException {
