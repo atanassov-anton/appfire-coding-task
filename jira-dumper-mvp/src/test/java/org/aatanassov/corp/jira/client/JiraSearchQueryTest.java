@@ -3,7 +3,7 @@ package org.aatanassov.corp.jira.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aatanassov.corp.JiraIssue;
+import org.aatanassov.corp.jira.model.JiraIssue;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

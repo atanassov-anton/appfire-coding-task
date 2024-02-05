@@ -1,8 +1,8 @@
-package org.aatanassov.corp;
+package org.aatanassov.corp.jira.model;
 
 import java.util.List;
 
-public class JiraIssue {
+public class JiraIssue extends JiraElement {
     private String key;
     private String url;
     private String summary;
@@ -83,35 +83,6 @@ public class JiraIssue {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public static class Comment {
-        private String text;
-        private String authorUsername;
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public String getAuthorUsername() {
-            return authorUsername;
-        }
-
-        public void setAuthorUsername(String authorUsername) {
-            this.authorUsername = authorUsername;
-        }
-
-        @Override
-        public String toString() {
-            return "Comment{" +
-                    "text='" + text + '\'' +
-                    ", authorUsername='" + authorUsername + '\'' +
-                    '}';
-        }
     }
 
     @Override

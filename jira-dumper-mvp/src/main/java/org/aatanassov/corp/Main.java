@@ -1,18 +1,11 @@
 package org.aatanassov.corp;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import static java.lang.System.exit;
 
@@ -23,14 +16,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         validateArguments(args);
-        JiraIssuesExtractor issuesExtractor = new JiraIssuesExtractor(JIRA_ATLASSIAN_REST_ENDPOINT, JIRA_ATLASSIAN_BROWSE_URL, HttpClients.createDefault());
-        List<JiraIssue> issues = issuesExtractor.getIssues(JQL, 0, 10);
-
-        if (args[0].equals("json")) {
-            saveToJson(issues, args[1] + "/issues.json");
-        } else {
-            saveToXml(issues, args[1] + "/issues.xml");
-        }
+        JiraIssuesExtractor issuesExtractor = new JiraIssuesExtractor(JIRA_ATLASSIAN_REST_ENDPOINT,
+                JIRA_ATLASSIAN_BROWSE_URL, HttpClients.createDefault(), args[1], args[0]);
+        issuesExtractor.dumpIssues(JQL, 10, 57);
     }
 
     private static void validateArguments(String[] args) {
@@ -56,17 +44,5 @@ public class Main {
         System.out.println("jira-dumper expects 2 arguments:");
         System.out.println("output_format(json|xml) output_folder");
         System.out.println("");
-    }
-
-    private static void saveToJson(List<JiraIssue> issues, String filePath) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-        writer.writeValue(new File(filePath), issues);
-    }
-
-    private static void saveToXml(List<JiraIssue> issues, String filePath) throws IOException {
-        ObjectMapper xmlMapper = new XmlMapper();
-        ObjectWriter writer = xmlMapper.writer(new DefaultXmlPrettyPrinter());
-        writer.writeValue(new File(filePath), issues);
     }
 }

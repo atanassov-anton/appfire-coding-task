@@ -75,10 +75,12 @@ features:
   - SearchQueryParser
   - CommentsQueryParser
 - [x] Add arguments validation
-- [ ] Add Pagination and multifile output - with hardcoded page size and max number of pages
+- [x] Add Pagination and multifile output - with hardcoded page size and max number of pages
 - [x] Add unit tests to 1 class
 - [x] Add javadoc and documentation to 1 class
-- [ ] Add exception handling for 1 method
+- [x] Add exception handling for 1 method
+- [ ] Add page size and max number of results main arguments
+- [ ] Update readme documentation
 - [ ] Add integration tests
 
 ### Future Roadmap

@@ -1,7 +1,7 @@
 package org.aatanassov.corp.jira.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.aatanassov.corp.JiraIssue;
+import org.aatanassov.corp.jira.model.JiraIssue;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
@@ -17,7 +17,7 @@ import java.util.List;
  * The jira search query has a fixed set of fields: summary, issuetype, priority, description, reporter, created
  * </p>
  */
-public class JiraSearchQuery extends JiraRestQuery {
+public class JiraSearchQuery extends JiraListRestQuery {
     private final List<String> fields;
     private final String jiraBrowseUrl;
     private final String jql;

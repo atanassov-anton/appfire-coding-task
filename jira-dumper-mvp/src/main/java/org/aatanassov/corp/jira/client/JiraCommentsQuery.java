@@ -1,7 +1,7 @@
 package org.aatanassov.corp.jira.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.aatanassov.corp.JiraIssue;
+import org.aatanassov.corp.jira.model.Comment;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class JiraCommentsQuery extends JiraRestQuery {
+public class JiraCommentsQuery extends JiraListRestQuery {
     private final String issueId;
 
     public JiraCommentsQuery(String jiraRestEndpoint, String issueId) {
@@ -32,14 +32,14 @@ public class JiraCommentsQuery extends JiraRestQuery {
         return uri.build();
     }
 
-    public List<JiraIssue.Comment> parseResponse(JsonNode getCommentsQueryResponse) {
+    public List<Comment> parseResponse(JsonNode getCommentsQueryResponse) {
         if (getCommentsQueryResponse == null) {
             throw new NullPointerException("searchQueryResponse parameter must not be null");
         }
-        List<JiraIssue.Comment> result = new ArrayList<>();
+        List<Comment> result = new ArrayList<>();
         JsonNode commentsNode = getChildNodeByName(getCommentsQueryResponse, "root", "comments");
         for (Iterator<JsonNode> it = commentsNode.iterator(); it.hasNext(); ) {
-            JiraIssue.Comment comment = new JiraIssue.Comment();
+            Comment comment = new Comment();
             JsonNode commentNode = it.next();
             JsonNode author = getChildNodeByName(commentNode, "comment", "author");
             comment.setAuthorUsername(getChildNodeByName(author, "author", "displayName").asText());
